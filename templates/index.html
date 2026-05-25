@@ -3,25 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Search</title>
+
     <style>
-        html,
         body {
             margin: 0;
-            height: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        body {
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 14px;
+            cursor: pointer;
+        }
+
+        form {
             display: flex;
-            justify-content: center; /* horizontal */
-            align-items: center;     /* vertical */
+            gap: 10px;
+        }
+
+        input {
+            padding: 8px;
+        }
+
+        button[type="submit"] {
+            padding: 8px 14px;
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
-<form method="POST">
-  <input name="keyword" placeholder="Enter keyword phrase">
-  <button type="submit">Search</button>
-</form>
+
+    <button class="back-btn" onclick="history.back()">
+        ← Back
+    </button>
+
+    <form method="POST">
+        <input
+            type="text"
+            name="keyword"
+            placeholder="Enter keyword phrase"
+            required
+        >
+        <button type="submit">Search</button>
+    </form>
+
 </body>
 </html>
