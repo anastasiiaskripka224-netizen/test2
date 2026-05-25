@@ -8,6 +8,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
+
 def get_google_results(keyword):
     url = "https://serpapi.com/search"
 
@@ -19,7 +20,6 @@ def get_google_results(keyword):
 
     response = requests.get(url, params=params)
     data = response.json()
-    print(data)
 
     results = []
 
@@ -36,30 +36,28 @@ def get_google_results(keyword):
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    results = []
+
     if request.method == "POST":
         keyword = request.form["keyword"]
         results = get_google_results(keyword)
 
-        with open("results.json", "w", encoding="utf-8") as file:
-            json.dump(results, file, ensure_ascii=False, indent=2)
+        with open(
+            "results.json",
+            "w",
+            encoding="utf-8"
+        ) as file:
+            json.dump(
+                results,
+                file,
+                ensure_ascii=False,
+                indent=2
+            )
 
-        html = "<h1>Results</h1>"
-        html += '<a href="/download">Download JSON</a><br><br>'
-
-        for result in results:
-            html += f"<h3>{result['position']}. {result['title']}</h3>"
-            html += f"<a href='{result['url']}'>{result['url']}</a>"
-            html += f"<p>{result['snippet']}</p>"
-
-        return html
-
-    return """
-    <h1>Google Organic Results</h1>
-    <form method="POST">
-        <input name="keyword" placeholder="Enter keyword phrase">
-        <button type="submit">Search</button>
-    </form>
-    """
+    return render_template(
+        "index.html",
+        results=results
+    )
 
 
 @app.route("/download")
